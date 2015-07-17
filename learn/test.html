@@ -24,6 +24,11 @@
     new go.Binding("text","name"))
   );
 
+    myDiagram.linkTemplate =
+    $(go.Link,
+    {routing: go.Link.Orthogonal, corner:5},
+    $(go.Shape,{strokeWidth:3, stroke:"#555"}));
+
   var model = $(go.TreeModel);
   model.nodeDataArray =
   [
@@ -35,11 +40,14 @@
     {key:"6",parent:"2",name:"Munkustrap",source:"cat6.png"}
   ];
   myDiagram.model = model;
+  myDiagram.layout =
+  $(go.TreeLayout,
+  {angle:90, layerSpacing:35});
 
   }
 </script>
 </head>
 <body onload="init()">
-  <div id="myDiagram" style="width:400px; height:300px; background:#DAE4E4"></div>
+  <div id="myDiagram" style="width:800px; height:900px; background:#DAE4E4"></div>
 </body>
 </html>
