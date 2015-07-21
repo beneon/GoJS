@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Basic GoJS Sample</title>
+<!-- Copyright 1998-2015 by Northwoods Software Corporation. -->
+<meta charset="UTF-8">
+<script src="go.js"></script>
+<link href="../assets/css/goSamples.css" rel="stylesheet" type="text/css" />  <!-- you don't need to use this -->
+<script src="goSamples.js"></script>
+<script id='code'>
+function init(){
+  if(window.goSamples) goSamples();
+  var $ = go.GraphObject.make;
+
+  myDiagram =
+    $(go.Diagram,'myDiagram',
+    {
+      initialContentAlignment: go.Spot.Center,
+      'clickCreatingTool.archetypeNodeData':{text:"Node",color:"white"},
+      'commandHandler.archetypeGroupData':{text:'Group',isGroup:true,color:'blue'},
+      'undoManager.isEnabled':true
+    });
+
+  function makeButton (text, action, visiblePredicate){
+    return $('ContextMenuButton',
+      $(go.TextBlock,text),
+      {click:action},
+      visiblePredicate?
+      new go.Binding('visible',"",visiblePredicate).ofObject()
+      :{}
+      );
+  }
+
+  var partContextMenu =
+    $(go.Adornment,'Vertical',
+      makeButton('Properties',function (e,obj){
+        var contextmenu = obj.part;
+      }))
+
+  var nodeDataArray = [
+      { key: 1, text: "Alpha", color: "lightblue" },
+      { key: 2, text: "Beta", color: "orange" },
+      { key: 3, text: "Gamma", color: "lightgreen", group: 5 },
+      { key: 4, text: "Delta", color: "pink", group: 5 },
+      { key: 5, text: "Epsilon", color: "green", isGroup: true }
+    ];
+    var linkDataArray = [
+      { from: 1, to: 2, color: "blue" },
+      { from: 2, to: 2 },
+      { from: 3, to: 4, color: "green" },
+      { from: 3, to: 1, color: "purple" }
+    ];
+    myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+  }
+</script>
+</head>
+<body onload="init()">
+  <div id="sample">
+    <p>Basic <b>GoJS</b> Sample</p>
+    <p>This sample demonstrates tooltips and context menus for all parts and for the diagram background,
+    as well as several other powerful diagram editing abilities.</p>
+    <div id="myDiagram" style="border: solid 1px black; width:400px; height:400px"></div>
+  </div>
+  </body>
+  </html>

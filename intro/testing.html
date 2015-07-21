@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src='go.js'></script>
+  <script>
+    function init(){
+    var $ = go.GraphObject.make;
+    var diagram = new go.Diagram('myDiagramDiv');
+    var violetbrush = $(go.Brush,'Linear',{0.0:'Violet',1.0:'Lavender'});
+    var node1 =
+        $(go.Node, 'Auto',
+          $(go.Shape,
+            {figure:'RoundedRectangle',fill:'lightblue'}),
+          $(go.TextBlock,
+            {text:'Alpha',margin:5})
+          );
+    diagram.add(node1);
+    var node2 =
+      $(go.Node, 'Auto',
+        $(go.Shape,
+          {figure:'RoundedRectangle',fill:'pink'}),
+        $(go.TextBlock,
+          {text:'Beta',margin:5}));
+    diagram.add(node2);
+    diagram.add(
+      $(go.Link,
+      {fromNode: node1, toNode:node2},
+      $(go.Shape))
+    );
+
+}
+  </script>
+</head>
+<body onload='init()'>
+  <div id='myDiagramDiv' style='background:#eee; width:500px; height:600px;'></div>
+</body>
