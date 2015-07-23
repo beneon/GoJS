@@ -8,24 +8,23 @@
     var diagram = new go.Diagram('myDiagramDiv');
     diagram.initialContentAlignment=go.Spot.Center;
     diagram.nodeTemplate =
-   $(go.Node, "Auto",
-     $(go.Shape,
-       { figure: "Ellipse" },
-       new go.Binding("fill", "color")),
-     $(go.TextBlock,
-       { margin: 5 },
-       new go.Binding("text", "key"))
-   );
-
- var nodeDataArray = [
-   { key: "Alpha", color: "lightblue" },
-   { key: "Beta", parent: "Alpha", color: "yellow" },  // note the "parent" property
-   { key: "Gamma", parent: "Alpha", color: "orange" },
-   { key: "Delta", parent: "Alpha", color: "lightgreen" }
- ];
- diagram.model = new go.TreeModel(nodeDataArray);
- var data = diagram.model.findNodeDataForKey('Delta');
- if(data!==null) diagram.model.setDataProperty(data,'color','red');
+      $(go.Node,'Auto',
+        new go.Binding('location','loc',go.Point.parse),
+        $(go.Shape,'RoundedRectangle',
+        {fill:'white'},
+        new go.Binding('fill','color')),
+        $(go.TextBlock,
+        {margin:5},
+        new go.Binding('text','key'))
+      );
+    var nodeDataArray = [
+      {key:'alpha',color:'lightblue',loc: '0 0'},
+      {key:'beta',color:'pink',loc: '100 -50'},
+    ];
+    var nodeLinkArray = [
+      {from:'alpha',to:'beta'}
+    ];
+    diagram.model = new go.GraphLinksModel(nodeDataArray,nodeLinkArray);
 
 }
   </script>
