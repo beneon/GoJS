@@ -19,15 +19,22 @@
           {margin:5},
           new go.Binding('text','key'))
         );
-    var nodeDataArray=[
-      {key:'alpha',loc:'0 0',highlight:false},
-      {key:'beta',loc:'100 50',highlight:true},
-      {key:'gamma',loc:'0 100'}
+    diagram.model.nodeDataArray = [
+      {key:'Alpha',highlight:false}
     ]
-    var linkDataArray = [
-      {from:'alpha',to:'beta'}
-    ];
-    diagram.model = new go.GraphLinksModel(nodeDataArray,linkDataArray);
+
+    function flash (){
+      var model = diagram.model;
+      model.startTransaction('flash');
+      var data = model.nodeDataArray[0];
+      model.setDataProperty(data,'highlight',!data.highlight);
+      model.commitTransaction('flash');
+    }
+
+    function loop(){
+      setTimeout(function(){flash();loop();},500);
+    }
+    loop();
 }
   </script>
 </head>
