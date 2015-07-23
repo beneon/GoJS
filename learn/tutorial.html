@@ -4,6 +4,20 @@
   <script src='go.js'></script>
   <script>
     function init(){
+      var $ = go.GraphObject.make;
+      var myDiagram =
+        $(go.Diagram, "myDiagramDiv",
+          {
+            initialContentAlignment:go.Spot.Center,
+            'undoManager.isEnabled':true
+          });
+          var myModel = $(go.Model);
+          myModel.nodeDataArray = [
+            {key:'alpha'},
+            {key:'beta'},
+            {key:'gamma'}
+          ];
+          myDiagram.model = myModel;
     }
   </script>
 </head>
