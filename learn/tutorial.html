@@ -11,13 +11,22 @@
             initialContentAlignment:go.Spot.Center,
             'undoManager.isEnabled':true
           });
-          var myModel = $(go.Model);
-          myModel.nodeDataArray = [
+      var myModel = $(go.Model);
+      myModel.nodeDataArray = [
             {key:'alpha'},
             {key:'beta'},
-            {key:'gamma'}
+            {key:'gamma',figg:'Rectangle',ft:"20px sans-serif"}
           ];
-          myDiagram.model = myModel;
+      myDiagram.model = myModel;
+      myDiagram.nodeTemplate =
+        $(go.Node, 'Vertical',
+          new go.Binding('location','loc'),
+        $(go.Shape,'RoundedRectangle',
+          new go.Binding('figure','figg')),
+        $(go.TextBlock,'default text',
+            new go.Binding('text','key'),
+            new go.Binding('font','ft'))
+          );
     }
   </script>
 </head>
