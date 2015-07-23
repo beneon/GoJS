@@ -14,13 +14,18 @@
         {fill:'yellow',stroke:'orange',strokeWidth:2},
           new go.Binding('fill','highlight',function(v){return v?'pink':'lightblue';}),
           new go.Binding('stroke','highlight',function(v){return v?'red':'blue';}),
-          new go.Binding('strokeWidth','highlight',function(v){return v?3:1;})),
+          new go.Binding('strokeWidth','highlight',function(v){return v?3:1;}),
+          new go.Binding('stroke','bb'),
+          new go.Binding('fill','bb')
+        ),
+
         $(go.TextBlock,
           {margin:5},
           new go.Binding('text','key'))
         );
     diagram.model.nodeDataArray = [
-      {key:'Alpha',highlight:false}
+      {key:'Alpha',bb:'red'},
+      {key:'Beta'}
     ]
 
     function flash (){
@@ -34,7 +39,7 @@
     function loop(){
       setTimeout(function(){flash();loop();},500);
     }
-    loop();
+
 }
   </script>
 </head>
