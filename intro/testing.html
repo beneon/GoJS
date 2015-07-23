@@ -7,25 +7,27 @@
     var $ = go.GraphObject.make;
     var diagram = new go.Diagram('myDiagramDiv');
     diagram.initialContentAlignment=go.Spot.Center;
-    diagram.nodeTemplate =
+    diagram.nodeTemplate=
       $(go.Node,'Auto',
         new go.Binding('location','loc',go.Point.parse),
         $(go.Shape,'RoundedRectangle',
-        {fill:'white'},
-        new go.Binding('fill','color')),
+        {fill:'yellow',stroke:'orange',strokeWidth:2},
+          new go.Binding('fill','highlight',function(v){return v?'pink':'lightblue';}),
+          new go.Binding('stroke','highlight',function(v){return v?'red':'blue';}),
+          new go.Binding('strokeWidth','highlight',function(v){return v?3:1;})),
         $(go.TextBlock,
-        {margin:5},
-        new go.Binding('text','key'))
-      );
-    var nodeDataArray = [
-      {key:'alpha',color:'lightblue',loc: '0 0'},
-      {key:'beta',color:'pink',loc: '100 -50'},
-    ];
-    var nodeLinkArray = [
+          {margin:5},
+          new go.Binding('text','key'))
+        );
+    var nodeDataArray=[
+      {key:'alpha',loc:'0 0',highlight:false},
+      {key:'beta',loc:'100 50',highlight:true},
+      {key:'gamma',loc:'0 100'}
+    ]
+    var linkDataArray = [
       {from:'alpha',to:'beta'}
     ];
-    diagram.model = new go.GraphLinksModel(nodeDataArray,nodeLinkArray);
-
+    diagram.model = new go.GraphLinksModel(nodeDataArray,linkDataArray);
 }
   </script>
 </head>
