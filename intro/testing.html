@@ -3,34 +3,63 @@
 <head>
   <script src='go.js'></script>
   <script>
+  function ContinousForceDirectedLayout(){
+    go.ForceDirectedLayout.call(this);
+    this._isObserving = false;
+  }
+  go.Diagram.inherit(ContinousForceDirectedLayout, go.ForceDirectedLayout);
+
+  ContinousForceDirectedLayout.prototype.isFixed = function(v){
+    return v.node.isSelected;
+  }
+
+  ContinousForceDirectedLayout.prototype.doLayout = function(coll){
+    if(!this._isObserving){
+      this._isObserving = true;
+      var lay = this;
+      this.diagram.model.addChangedListener(function(e){
+        if(e.modelChange !== '') lay.network = null;
+      });
+    }
+    var net = this.network;
+    if(net === null){
+      this.network = net = this.makeNetwork(coll);
+    }else{
+      this.diagram.nodes.each(function(n){
+        var v = net.findVertex(n);
+        if(v !== null)v.bounds = n.actualBounds;
+      });
+    }
+    go.ForceDirectedLayout.prototype.doLayout.call(this,coll);
+    this.network = net;
+    }
     function init(){
-    var $ = go.GraphObject.make;
-    var diagram = new go.Diagram('myDiagramDiv');
-    diagram.initialContentAlignment=go.Spot.Center;
-    diagram.nodeTemplate=
-      $(go.Node,'Auto',
-        new go.Binding('location','loc',go.Point.parse),
-        $(go.Shape,'RoundedRectangle',
-        {fill:'yellow',stroke:'orange',strokeWidth:2},
-          new go.Binding('fill','highlight',function(v){return v?'pink':'lightblue';}),
-          new go.Binding('stroke','highlight',function(v){return v?'red':'blue';}),
-          new go.Binding('strokeWidth','highlight',function(v){return v?3:1;})),
-        $(go.TextBlock,
-          {margin:5},
-          new go.Binding('text','key'))
-        );
-    var nodeDataArray=[
-      {key:'alpha',loc:'0 0',highlight:false},
-      {key:'beta',loc:'100 50',highlight:true},
-      {key:'gamma',loc:'0 100'}
-    ]
-    var linkDataArray = [
-      {from:'alpha',to:'beta'}
-    ];
-    diagram.model = new go.GraphLinksModel(nodeDataArray,linkDataArray);
-}
+      var $ = go.GraphObject.make;
+      myDiagram =
+        $(go.Diagram,'myDiagram',
+          {
+            initialAutoScale:go.Diagram.Uniform,
+            contentAlignment:go.Spot.Center,
+            layout:$(ContinousForceDirectedLayout,{defaultSpringLength:30, defautlElectricalCharge:100}),
+            "SelectionMoved":function(e){e.diagram.layout.invalidateLayout();}
+          });
+      myDiagram.toolManager.draggingTool.doMouseMove = function(){
+        go.DraggingTool.prototype.doMouseMove.call(this);
+        if(this.isActive){this.diagram.layout.invalidateLayout();}
+      }
+
+      myDiagram.nodeTemplate =
+        $(go.Node, 'Auto',
+          $(go.Shape,'Circle',
+            {fill:'CornflowerBlue',stroke:'black',spot1: new go.Spot(0,0,5,5),spot2: new go.Spot(1,1,-5,-5)}),
+          $(go.TextBlock,
+            {font:'bold 10pt helvetica,bold arial, sans-serif', textAlign:'center', maxSize:new go.Size(100,Nan)},
+            new go.Binding('text','text'))
+          );
+
+    }
   </script>
 </head>
 <body onload='init()'>
-  <div id='myDiagramDiv' style='background:#eee; width:500px; height:600px;'></div>
+  <div id="myDiagram" style="background-color: whitesmoke; border: solid 1px black; width: 100%; height: 700px"></div>
 </body>
