@@ -55,7 +55,10 @@
 
     var leftParts = new go.Set(go.Part);
     var rightParts = new go.Set(go.Part);
+    console.log(leftParts.size);
     separatePartsByLayout(diagram, leftParts, rightParts);
+    console.log(leftParts.size);
+    //所以确实是往leftParts里面加了内容的。这个真的有点反直觉。
 
     var layout1 =
       $(go.TreeLayout,
