@@ -10,7 +10,7 @@
 <script src="../api/jquery-1.11.3.min.js"></script>
 <script id="code">
   function init(){
-    if(windows.goSamples)goSamples();
+
 
     var $ = go.GraphObject.make;
 
@@ -26,7 +26,7 @@
     myDiagram.nodeTemplate =
       $(go.Node,'Auto',
         {isShadowed:true},
-        $(go.Shape,'RoudnedRectangle',
+        $(go.Shape,'RoundedRectangle',
           {fill:graygrad,stroke:'#D8D8D8'},
           new go.Binding('fill','color')),
         $(go.TextBlock,
@@ -38,8 +38,52 @@
       $(go.Link,
         {selectable:false},
         $(go.Shape));
-  
 
+  jQuery.getJSON('doubleTree.json',load);
+
+  }
+
+  function load(jsondata){
+    myDiagram.model = new go.TreeModel (jsondata[
+      'nodes']);
+    doubleTreeLayout(myDiagram);
+  }
+
+  function doubleTreeLayout(diagram){
+    var $ = go.GraphObject.make;
+    diagram.startTransaction('Double Tree Layout');
+
+    var leftParts = new go.Set(go.Part);
+    var rightParts = new go.Set(go.Part);
+    separatePartsByLayout(diagram, leftParts, rightParts);
+
+    var layout1 =
+      $(go.TreeLayout,
+        {angle:180,
+          arrangement:go.TreeLayout.ArrangementFixedRoots,
+          setsPortSpot:false});
+    var layout2 =
+      $(go.TreeLayout,
+        {angle:0,
+          arrangement:go.TreeLayout.ArrangementFixedRoots,
+          setsPortSpot:false});
+    layout1.doLayout(leftParts);
+    layout2.doLayout(rightParts);
+
+    diagram.commitTransaction('Double Tree Layout');
+  }
+
+  function separatePartsByLayout(diagram, leftParts, rightParts){
+    var root = diagram.findNodeForKey('Root');
+    if(root === null)return;
+    leftParts.add(root);
+    rightParts.add(root);
+    root.findTreeChildrenNodes().each(function(child){
+      var dir = child.data.dir;
+      var coll = (dir === 'left')?leftParts:rightParts;
+      coll.addAll(child.findTreeParts());
+      coll.add(child.findTreeParentLink());
+    });
   }
 </script>
 </head>
