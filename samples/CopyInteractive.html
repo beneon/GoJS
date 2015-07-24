@@ -55,6 +55,17 @@
 
 
  function init() {
+
+     jQuery.getJSON("iforce.json", load);
+
+
+   // create the model for the concept map
+
+   //myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+ }
+
+ function load(loaddata){
+   console.log(loaddata['nodes']);
    if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
    var $ = go.GraphObject.make;  // for conciseness in defining templates
 
@@ -107,16 +118,6 @@
            new go.Binding("text", "text"))
        )
      );
-     jQuery.getJSON("iforce.json", load);
-
-
-   // create the model for the concept map
-
-   //myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
- }
- 
- function load(loaddata){
-   console.log(loaddata['nodes']);
    myDiagram.model = new go.GraphLinksModel(loaddata['nodes'],loaddata['links']);
  }
 </script>
