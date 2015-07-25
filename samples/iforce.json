@@ -1,6 +1,6 @@
 { "someProperty":"someValue",
   "nodes":[
-{ "key": 1, "text": "GoJS" },
+{ "key": 1, "text": "GoJS","rad":100},
 {"key": 2,"text": "view" },
 {"key": 3,"text": "model" },
 {"key": 4,"text": "diagram" },
@@ -19,7 +19,7 @@
     "links":[
       {"from": 1,"to": 2},
       {"from": 1,"to": 3 },
-      {"from": 3,"to": 4},
+      {"from": 2,"to": 4},
       {"from": 4,"to": 5},
       {"from": 5,"to": 6},
       {"from": 6,"to": 7},

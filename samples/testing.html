@@ -6,115 +6,20 @@
 <meta charset="UTF-8">
 <script src="go.js"></script>
 <link href="../assets/css/goSamples.css" rel="stylesheet" type="text/css" />  <!-- you don't need to use this -->
-<script src="goSamples.js"></script>  <!-- this is only for the GoJS Samples framework -->
 <script src="../api/jquery-1.11.3.min.js"></script>
 <script id="code">
-  function init(){
 
-
-    var $ = go.GraphObject.make;
-
-    myDiagram =
-      $(go.Diagram, 'myDiagram',
-        {initialContentAlignment:go.Spot.Center});
-
-    var graygrad = $(go.Brush, 'Linear',{0:'#f5f5f5',1:'#f1f1f1'});
-    var bluegrad = $(go.Brush, 'Linear',{0:'#cddaf0',1:'#91addd'});
-    var yellowgrad = $(go.Brush, 'Linear',{0:'#fec901',1:'#fea200'});
-    var lavgrad = $(go.Brush, 'Linear',{0:'#ef9efa',1:'#a570ad'});
-
-    myDiagram.nodeTemplate =
-      $(go.Node,'Auto',
-        {isShadowed:true},
-        $(go.Shape,'RoundedRectangle',
-          {fill:graygrad,stroke:'#D8D8D8'},
-          new go.Binding('fill','color')),
-        $(go.TextBlock,
-          {margin:5,font:'bold 11px Helvetica, bold Arial, sans-serif'},
-          new go.Binding('text','key'))
-        );
-
-    myDiagram.linkTemplate =
-      $(go.Link,
-        {selectable:false},
-        $(go.Shape));
-
-  jQuery.getJSON('doubleTree.json',load);
-
-  }
-
-  function load(jsondata){
-    myDiagram.model = new go.TreeModel (jsondata[
-      'nodes']);
-    doubleTreeLayout(myDiagram);
-  }
-
-  function doubleTreeLayout(diagram){
-    var $ = go.GraphObject.make;
-    diagram.startTransaction('Double Tree Layout');
-
-    var leftParts = new go.Set(go.Part);
-    var rightParts = new go.Set(go.Part);
-    console.log(leftParts.size);
-    separatePartsByLayout(diagram, leftParts, rightParts);
-    console.log(leftParts.size);
-    var b = 'hello world'
-    function lengit(v){return  v+'s';}
-    var c = lengit(b);
-    console.log(b);
-    console.log(c);
-    //所以确实是往leftParts里面加了内容的。这个真的有点反直觉。
-
-    var layout1 =
-      $(go.TreeLayout,
-        {angle:180,
-          arrangement:go.TreeLayout.ArrangementFixedRoots,
-          setsPortSpot:false});
-    var layout2 =
-      $(go.TreeLayout,
-        {angle:0,
-          arrangement:go.TreeLayout.ArrangementFixedRoots,
-          setsPortSpot:false});
-    layout1.doLayout(leftParts);
-    layout2.doLayout(rightParts);
-
-    diagram.commitTransaction('Double Tree Layout');
-  }
-
-  function separatePartsByLayout(diagram, leftParts, rightParts){
-    var root = diagram.findNodeForKey('Root');
-    if(root === null)return;
-    leftParts.add(root);
-    rightParts.add(root);
-    root.findTreeChildrenNodes().each(function(child){
-      var dir = child.data.dir;
-      var coll = (dir === 'left')?leftParts:rightParts;
-      coll.addAll(child.findTreeParts());
-      coll.add(child.findTreeParentLink());
-    });
-  }
 </script>
 </head>
 <body onload="init()">
-<div id="sample">
-  <div id="myDiagram" style="background-color: white; border: solid 1px black; width: 100%; height: 500px"></div>
-  <p>
-  This sample is exactly like the <a href="doubleTree.html">Double Tree</a> sample,
-  but this gets its data by getting JSON content from the server.
-  In this case the data is in a static file named <a href="doubleTree.json" target="_blank">doubleTree.json</a>.
-  </p>
-  <p>
-  This sample displays a diagram of two trees sharing a single root node growing in opposite directions.
-  The immediate child data of the ROOT node have a "dir" property
-  that describes the direction that subtree should grow.
-  </p>
-  <p>
-  Unlike many <b>GoJS</b> apps, there is no <a>Diagram.layout</a> assigned.
-  Layouts are performed in code -- a separate <a>TreeLayout</a> for each subtree.
-  Each tree layout works on a subset of the nodes.
-  The <b>separatePartsByLayout</b> function produces two separate collections of Nodes and Links,
-  one for each direction, and thus one for each tree layout.
-  </p>
-</div>
+  <div style="width:100%; white-space:nowrap;">
+      <span style="display: inline-block; vertical-align: top; padding: 5px; width:100px">
+        <div id="myPalette" style="border: solid 1px gray; height: 620px"></div>
+      </span>
+
+      <span style="display: inline-block; vertical-align: top; padding: 5px; width:80%">
+        <div id="myDiagram" style="border: solid 1px gray; height: 620px"></div>
+      </span>
+    </div>
 </body>
 </html>
