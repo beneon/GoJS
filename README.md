@@ -1,3 +1,32 @@
+lots of thx to the northwood for presenting such a wonderful js library.
+
+well, I'm still learning it, and want to share some feature here:
+
+```
+
+myDiagram.nodeTemplate =
+     $(go.Node, "Spot",
+       ...
+       { // handle mouse enter/leave events to show/hide the ports
+         mouseEnter: function(e, node) { showSmallPorts(node, true); },
+         mouseLeave: function(e, node) { showSmallPorts(node, false); },
+          // second arg will be this GraphObject, which in this case is the Node itself:
+          click: function(e, node) {
+            window.open("http://en.wikipedia.org/Wiki/" + node.data.key);
+          }
+       }
+     );
+     
+```
+the click thing in the bottom can get browser to do things when you clicked a node.
+
+> the following lines come from the northwoods posts
+
+
+---
+
+```
+
 GoJS Samples
 ============
 
@@ -18,3 +47,4 @@ Please register for support at Northwoods Software's <a href="http://www.nwoods.
 
 For any nontechnical questions about GoJS, such as about sales or licensing,
 please visit Northwoods Software's <a href = "http://www.nwoods.com/contact.html">contact form</a>.
+```

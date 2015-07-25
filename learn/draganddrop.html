@@ -139,7 +139,8 @@ function init() {
        makePort("B", go.Spot.Bottom, true, false),
        { // handle mouse enter/leave events to show/hide the ports
          mouseEnter: function(e, node) { showSmallPorts(node, true); },
-         mouseLeave: function(e, node) { showSmallPorts(node, false); }
+         mouseLeave: function(e, node) { showSmallPorts(node, false); },
+          // second arg will be this GraphObject, which in this case is the Node itself:
        }
      );
 
@@ -187,6 +188,7 @@ function init() {
              editable: true
            },
            new go.Binding("text").makeTwoWay())
+
        )
      );
 
