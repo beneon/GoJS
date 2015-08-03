@@ -53,7 +53,7 @@
         $(go.Panel, "Vertical",
           { margin: 3 },
           $(go.Shape,
-            { fill: colors["white"], strokeWidth: 0 },
+            { fill: colors["white"], strokeWidth: 0,angle:50 },
             new go.Binding("geometryString", "geo", geoFunc))
         ),
         // Each node has a tooltip that reveals the name of its icon
@@ -81,7 +81,7 @@
       { key: 5, geo: "heart"         , color: colors["green"]  },
       { key: 6, geo: "arrow-up-right", color: colors["blue"]   },
       { key: 7, geo: "html5"         , color: colors["orange"] },
-      { key: 8, geo: "twitter"       , color: colors["orange"] }
+      { key: 8, geo: "alphatest"       , color: colors["orange"] }
     ],
     [
       { from: 1, to: 2 },

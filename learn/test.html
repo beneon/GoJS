@@ -23,7 +23,6 @@
     {margin:12,stroke:"white",font:"bold 16px sans-serif"},
     new go.Binding("text","name"))
   );
-
     myDiagram.linkTemplate =
     $(go.Link,
     {routing: go.Link.Orthogonal, corner:5},
@@ -44,7 +43,16 @@
   $(go.TreeLayout,
   {angle:90, layerSpacing:35});
 
-  }
+  myDiagram.toolManager.doKeyDown = function() {
+      // swap the InputEvent.control and .shift properties
+      var e = myDiagram.lastInput;
+      console.log(e.key);
+  };
+
+}
+
+
+
 </script>
 </head>
 <body onload="init()">

@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>GoJS&reg; Diagramming Components for JavaScript and HTML, by Northwoods Software&reg;</title>
+  <script>
+  function init(){
+  }
+  window.addEventListener("orientationchange", function() {
+	   if(window.orientation===0){
+       document.getElementById('debugLog').innerHTML = "<li>sequence1</li><li>sequence2</li>";
+     }else{
+       document.getElementById('debugLog').innerHTML = "<li>sequence1</li>";
+     }
+  // Announce the new orientation number
+}, false);
+</script>
+</head>
+<body onload="init()">
+  <ul id="debugLog">
+  <li>sequence1</li><li>sequence2</li>
+  </ul>
+  <!--<ul><li>Add 2ul of digested plasmid backbone (25 ng)</li>
+  <li>Add equimolar amount of EcoRI-HF SpeI digested fragment (< 3 ul)</li>
+  <li>Add equimolar amount of XbaI PstI digested fragment (< 3 ul)</li>
+  <li>Add 1 ul T4 DNA ligase buffer. Note: Do not use quick ligase</li>
+  <li>Add 0.5 ul T4 DNA ligase</li>
+  <li>Add water to 10 ul</li>
+  <li>Ligate 16C/30 min, heat kill 80C/20 min</li>
+  <li>Transform with 1-2 ul of product</li></ul>-->
+</body>
+</html>

@@ -105,7 +105,7 @@
 
     myDiagram.nodeTemplate =
       $(go.Node, "Spot",
-        { locationSpot: go.Spot.Center },
+        { locationSpot: go.Spot.Center,rotateObjectName:"rotateTarg" },
         new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
         { selectable: true, selectionAdornmentTemplate: nodeSelectionAdornmentTemplate },
         { resizable: true, resizeObjectName: "PANEL", resizeAdornmentTemplate: nodeResizeAdornmentTemplate },
@@ -117,12 +117,14 @@
           new go.Binding("desiredSize", "size", go.Size.parse).makeTwoWay(go.Size.stringify),
           $(go.Shape, "Rectangle",  // default figure
             {
+              name:"rotateTarg",
               portId: "", // the default port: if no spot on link data, use closest side
               fromLinkable: true, toLinkable: true, cursor: "pointer",
               fill: "white"  // default color
             },
             new go.Binding("figure"),
-            new go.Binding("fill")),
+            new go.Binding("fill"),
+            new go.Binding("geometryString", "geo")),
           $(go.TextBlock,
             {
               font: "bold 11pt Helvetica, Arial, sans-serif",
@@ -231,7 +233,8 @@
             { text: "DB", figure: "Database", fill: "lightgray" },
             { text: "???", figure: "Diamond", fill: "lightskyblue" },
             { text: "End", figure: "Circle", fill: "red" },
-            { text: "Comment", figure: "RoundedRectangle", fill: "lightyellow" }
+            { text: "Comment", figure: "Hexagon", fill: "lightyellow" },
+            { text: "custom",geo:"M25.66,3.993C19.474,4.398,8.824,11.599,7.607,20.017S4.261,40.099,17.04,40.91s25.254-9.128,24.341-14.706s-6.491-8.925-7.81-13.59S25.66,3.993,25.66,3.993z"}
           ], [
             // the Palette also has a disconnected Link, which the user can drag-and-drop
             { points: new go.List(go.Point).addAll([new go.Point(0, 0), new go.Point(30, 0), new go.Point(30, 40), new go.Point(60, 40)]) }
